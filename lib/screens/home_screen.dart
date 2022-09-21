@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../providers/movies_provider.dart';
 import '../widgets/card_swiper.dart';
 import '../widgets/movie_slider.dart';
 
@@ -15,7 +16,9 @@ class HomeScreen extends StatelessWidget {
           actions: [
             IconButton(
               icon: const Icon(Icons.search_outlined),
-              onPressed: () {},
+              onPressed: () {
+                MoviesProvider();
+              },
             )
           ],
         ),
