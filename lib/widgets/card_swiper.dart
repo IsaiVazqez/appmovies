@@ -12,7 +12,7 @@ class CartSwipe extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Container(
       width: double.infinity,
-      height: size.height * 0.5,
+      height: size.height * 0.4,
       child: Swiper(
         itemCount: movies.length,
         layout: SwiperLayout.STACK,
@@ -23,7 +23,7 @@ class CartSwipe extends StatelessWidget {
 
           return GestureDetector(
             onTap: () =>
-                Navigator.pushNamed(context, 'details', arguments: 'movie'),
+                Navigator.pushNamed(context, 'details', arguments: movie),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: FadeInImage(

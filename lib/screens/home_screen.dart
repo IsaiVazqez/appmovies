@@ -29,7 +29,13 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               CartSwipe(movies: moviesProvider.onDisplayMovies),
-              MovieSlider(),
+              MovieSlider(
+                title: 'Populares',
+                movies: moviesProvider.onpopularMovies,
+                onNextPage: () {
+                  moviesProvider.getPopularMovies();
+                },
+              ),
             ],
           ),
         ));

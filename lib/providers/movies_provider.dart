@@ -8,12 +8,16 @@ import 'package:movies_app/models/popular_response.dart';
 
 class MoviesProvider extends ChangeNotifier {
   final String _apiKey = '1857d2a5d29e3fdfc67803cc372182ee';
+
   final String _baseUrl = 'api.themoviedb.org';
+
   final String _language = 'en-US';
 
   List<Movie> onDisplayMovies = [];
 
   List<Movie> onpopularMovies = [];
+
+  int _popularPage = 0;
 
   MoviesProvider() {
     // ignore: avoid_print
@@ -25,16 +29,23 @@ class MoviesProvider extends ChangeNotifier {
     this.getPopularMovies();
   }
 
-  getOnDisplaymovies() async {
-    var url = Uri.https(_baseUrl, '/3/movie/now_playing', {
+  Future<String> _getJsonData(String endpoint, [int page = 1]) async {
+    var url = Uri.https(_baseUrl, endpoint, {
       'api_key': _apiKey,
       'language': _language,
-      'page': '1',
+      'page': '$page',
     });
 
     var response = await http.get(url);
 
-    final nowPlayingResponse = NowPlayingResponse.fromJson(response.body);
+    return response.body;
+  }
+
+  getOnDisplaymovies() async {
+    // ignore: unnecessary_this
+    final jsonData = await this._getJsonData('3/movie/now_playing');
+
+    final nowPlayingResponse = NowPlayingResponse.fromJson(jsonData);
 
     // ignore: avoid_print
     print(nowPlayingResponse.results[1].title);
@@ -45,15 +56,12 @@ class MoviesProvider extends ChangeNotifier {
   }
 
   getPopularMovies() async {
-    var url = Uri.https(_baseUrl, '/3/movie/popular', {
-      'api_key': _apiKey,
-      'language': _language,
-      'page': '1',
-    });
+    _popularPage++;
 
-    var response = await http.get(url);
+    // ignore: unnecessary_this
+    final jsonData = await this._getJsonData('/3/movie/popular', _popularPage);
 
-    final populaResponse = PopularResponse.fromJson(response.body);
+    final populaResponse = PopularResponse.fromJson(jsonData);
 
     // ignore: avoid_print
     print(populaResponse.results[1].title);
