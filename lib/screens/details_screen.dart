@@ -23,7 +23,9 @@ class DetailScreen extends StatelessWidget {
           _OverWiev(
             movie: movie,
           ),
-          CastingCards(),
+          CastingCards(
+            movieId: movie.id,
+          ),
         ]))
       ]),
     );
